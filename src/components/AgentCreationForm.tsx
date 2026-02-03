@@ -2,6 +2,7 @@ import { useState, type FC } from 'react';
 import './AgentCreationForm.css';
 import SkillsSelection from './SkillsSelection';
 import type { MessagingPlatform } from '../types/agent';
+import { ConfigService } from '../utils/ConfigService';
 
 interface AgentCreationFormProps {
     onDeploy: (name: string) => void;
@@ -30,6 +31,7 @@ const AgentCreationForm: FC<AgentCreationFormProps> = ({ onDeploy }) => {
     };
 
     const handleDeploy = () => {
+        ConfigService.saveAgent(formData);
         onDeploy(formData.name || 'Unnamed Agent');
     };
 
