@@ -1,0 +1,60 @@
+.version-history {
+    margin-top: 32px;
+}
+
+.version-history-empty {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-style: italic;
+    margin-top: 12px;
+}
+
+.version-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.version-item {
+    padding: 16px 24px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-color);
+}
+
+.version-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.version-date {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.version-name {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.btn-restore {
+    background: rgba(0, 242, 255, 0.1);
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-restore:hover {
+    background: var(--accent-cyan);
+    color: var(--bg-color);
+}

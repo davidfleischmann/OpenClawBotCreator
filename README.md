@@ -4,7 +4,7 @@ OpenClaw Bot Creator is a graphical interface designed to allow users to create 
 
 ## Project Goal
 
-The primary objective is to provide a user-friendly, visual way to configure OpenClaw agents, connect them to messaging platforms (Telegram, WhatsApp, Discord), and deploy them in isolated environments.
+The primary objective is to provide a user-friendly, visual way to configure OpenClaw agents, connect them to messaging platforms (Telegram, WhatsApp, Discord), and deploy them in isolated environments. The platform also maintains a history of configuration versions (last 5versions) for easy recovery.
 
 ## Development Workflow
 
