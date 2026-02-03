@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import type { User } from '../types/agent';
 
@@ -6,7 +6,24 @@ export const useGoogleAuth = (onSuccess: (user: User) => void) => {
     const [isAuthenticating, setIsAuthenticating] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const login = useGoogleLogin({
+    const isPlaceholder = import.meta.env.VITE_GOOGLE_CLIENT_ID?.includes('your-google-client-id');
+
+    const handleSimulation = useCallback(async () => {
+        setIsAuthenticating(true);
+        setError(null);
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        onSuccess({
+            id: 'sim-123',
+            name: 'David Fleischmann (Demo)',
+            email: 'david@openclaw.ai',
+            role: 'user',
+            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=David'
+        });
+        setIsAuthenticating(false);
+    }, [onSuccess]);
+
+    const realLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             setIsAuthenticating(true);
             setError(null);
@@ -46,8 +63,9 @@ export const useGoogleAuth = (onSuccess: (user: User) => void) => {
     });
 
     return {
-        login,
+        login: isPlaceholder ? handleSimulation : realLogin,
         isAuthenticating,
-        error
+        error,
+        isSimulated: isPlaceholder
     };
 };

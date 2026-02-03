@@ -119,6 +119,14 @@
     margin-bottom: 8px;
 }
 
+.sim-notice {
+    color: var(--accent-cyan);
+    font-size: 11px;
+    margin-top: -8px;
+    margin-bottom: 8px;
+    opacity: 0.8;
+}
+
 .spinner {
     display: inline-block;
     width: 16px;

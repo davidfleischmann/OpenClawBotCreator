@@ -8,7 +8,7 @@ interface LoginProps {
 }
 
 const Login: FC<LoginProps> = ({ onLogin }) => {
-    const { login: googleLogin, isAuthenticating, error } = useGoogleAuth(onLogin);
+    const { login: googleLogin, isAuthenticating, error, isSimulated } = useGoogleAuth(onLogin);
 
     const handleAdminLogin = () => {
         // Shortcut for demo purposes
@@ -44,8 +44,9 @@ const Login: FC<LoginProps> = ({ onLogin }) => {
                         <span className="social-icon">
                             {isAuthenticating ? <span className="spinner"></span> : 'G'}
                         </span>
-                        {isAuthenticating ? 'Connecting to Google...' : 'Continue with Google'}
+                        {isAuthenticating ? 'Connecting...' : isSimulated ? 'Enter Simulation Mode' : 'Continue with Google'}
                     </button>
+                    {isSimulated && <p className="sim-notice">Client ID not configured. Using safe simulation.</p>}
                     {error && <p className="auth-error">{error}</p>}
 
                     <button className="social-btn github" onClick={() => !isAuthenticating && googleLogin()} disabled={isAuthenticating}>
