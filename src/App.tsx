@@ -2,16 +2,26 @@ import { useState } from 'react'
 import Layout from './components/Layout'
 import AgentCreationForm from './components/AgentCreationForm'
 import DeploymentStatus from './components/DeploymentStatus'
+import Login from './components/Login'
 import './App.css'
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [view, setView] = useState<'dashboard' | 'create' | 'deploying'>('dashboard');
   const [selectedAgent, setSelectedAgent] = useState<string>('');
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
 
   const startDeployment = (name: string) => {
     setSelectedAgent(name);
     setView('deploying');
   };
+
+  if (!isAuthenticated) {
+    return <Login onLogin={handleLogin} />;
+  }
 
   return (
     <Layout>
