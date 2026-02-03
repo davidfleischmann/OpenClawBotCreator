@@ -1,18 +1,33 @@
-import { useState } from 'react';
+import { useState, type FC } from 'react';
 import './AgentCreationForm.css';
+import SkillsSelection from './SkillsSelection';
 import type { MessagingPlatform } from '../types/agent';
 
-const AgentCreationForm: React.FC = () => {
+const AgentCreationForm: FC = () => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         name: '',
         description: '',
         platform: 'telegram' as MessagingPlatform,
         apiKey: '',
+        skills: [] as string[],
     });
 
     const nextStep = () => setStep(step + 1);
     const prevStep = () => setStep(step - 1);
+
+    const toggleSkill = (skillId: string) => {
+        setFormData((prev) => ({
+            ...prev,
+            skills: prev.skills.includes(skillId)
+                ? prev.skills.filter((id) => id !== skillId)
+                : [...prev.skills, skillId],
+        }));
+    };
+
+    const handleDeploy = () => {
+        alert('Deployment started! Simulating OpenClaw agent isolation...');
+    };
 
     return (
         <div className="agent-form-container glass">
@@ -88,10 +103,10 @@ const AgentCreationForm: React.FC = () => {
                     <div className="form-step">
                         <h2>Skills & Capabilities</h2>
                         <p>Select the skills your agent should have access to.</p>
-                        {/* Skills grid will be implemented in the next issue */}
-                        <div className="skills-placeholder">
-                            Skills selection coming in Issue #3...
-                        </div>
+                        <SkillsSelection
+                            selectedSkills={formData.skills}
+                            onToggleSkill={toggleSkill}
+                        />
                     </div>
                 )}
             </div>
@@ -101,7 +116,7 @@ const AgentCreationForm: React.FC = () => {
                 {step < 3 ? (
                     <button className="btn-primary" onClick={nextStep}>Continue</button>
                 ) : (
-                    <button className="btn-primary neon-border">Create & Deploy Agent</button>
+                    <button className="btn-primary neon-border" onClick={handleDeploy}>Create & Deploy Agent</button>
                 )}
             </div>
         </div>
