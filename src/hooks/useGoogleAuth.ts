@@ -1,41 +1,49 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
+import { useGoogleLogin } from '@react-oauth/google';
 import type { User } from '../types/agent';
 
 export const useGoogleAuth = (onSuccess: (user: User) => void) => {
     const [isAuthenticating, setIsAuthenticating] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const login = useCallback(async () => {
-        setIsAuthenticating(true);
-        setError(null);
+    const login = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            setIsAuthenticating(true);
+            setError(null);
 
-        try {
-            // Simulate the delay of redirecting to Google and user interacting
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            try {
+                // In a real scenario, you'd send tokenResponse.access_token to your backend
+                // or use the userinfo endpoint. For this integration, we'll fetch from Google's userinfo.
+                const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+                });
 
-            // Simulate profile retrieval
-            const mockUser: User = {
-                id: `google-${Math.floor(Math.random() * 1000000)}`,
-                name: 'David Fleischmann',
-                email: 'david@openclaw.ai',
-                role: 'user',
-                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=David'
-            };
+                if (!response.ok) throw new Error('Failed to fetch user profile');
 
-            // Demo condition for admin
-            if (window.location.search.includes('admin=true')) {
-                mockUser.role = 'admin';
-                mockUser.name = 'System Admin';
-                mockUser.email = 'admin@openclaw.ai';
+                const profile = await response.json();
+
+                const user: User = {
+                    id: profile.sub,
+                    name: profile.name,
+                    email: profile.email,
+                    role: profile.email === 'admin@openclaw.ai' ? 'admin' : 'user',
+                    avatar: profile.picture
+                };
+
+                onSuccess(user);
+            } catch (err) {
+                console.error('Google Profile Fetch Error:', err);
+                setError('Failed to retrieve profile information from Google.');
+            } finally {
+                setIsAuthenticating(false);
             }
-
-            onSuccess(mockUser);
-        } catch (err) {
-            setError('Failed to authenticate with Google. Please try again.');
-        } finally {
+        },
+        onError: (errorResponse) => {
+            console.error('Google Login Error:', errorResponse);
+            setError('Google authentication failed. Please try again.');
             setIsAuthenticating(false);
         }
-    }, [onSuccess]);
+    });
 
     return {
         login,
