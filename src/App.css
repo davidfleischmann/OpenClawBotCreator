@@ -13,9 +13,26 @@
   margin-bottom: 8px;
 }
 
+.content-header .header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .content-header .subtitle {
   color: var(--text-secondary);
   font-size: 16px;
+}
+
+.btn-back {
+  background: transparent;
+  border: none;
+  color: var(--accent-cyan);
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
 }
 
 .stats-grid {
