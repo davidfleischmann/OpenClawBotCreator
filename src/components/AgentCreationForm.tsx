@@ -3,7 +3,11 @@ import './AgentCreationForm.css';
 import SkillsSelection from './SkillsSelection';
 import type { MessagingPlatform } from '../types/agent';
 
-const AgentCreationForm: FC = () => {
+interface AgentCreationFormProps {
+    onDeploy: (name: string) => void;
+}
+
+const AgentCreationForm: FC<AgentCreationFormProps> = ({ onDeploy }) => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         name: '',
@@ -26,7 +30,7 @@ const AgentCreationForm: FC = () => {
     };
 
     const handleDeploy = () => {
-        alert('Deployment started! Simulating OpenClaw agent isolation...');
+        onDeploy(formData.name || 'Unnamed Agent');
     };
 
     return (

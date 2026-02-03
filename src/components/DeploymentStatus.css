@@ -1,0 +1,115 @@
+.deployment-status {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-badge {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.status-badge.initializing {
+    background: rgba(160, 174, 192, 0.2);
+    color: #a0aec0;
+}
+
+.status-badge.provisioning {
+    background: rgba(66, 153, 225, 0.2);
+    color: #4299e1;
+}
+
+.status-badge.deploying {
+    background: rgba(159, 122, 234, 0.2);
+    color: #9f7aea;
+}
+
+.status-badge.running {
+    background: rgba(72, 187, 120, 0.2);
+    color: #48bb78;
+}
+
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.progress-bar-bg {
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--accent-gradient);
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+.progress-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-align: right;
+}
+
+.logs-container h3 {
+    font-size: 16px;
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+}
+
+.logs-viewer {
+    background: #000;
+    padding: 20px;
+    border-radius: 12px;
+    height: 240px;
+    overflow-y: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.log-line {
+    color: #48bb78;
+}
+
+.log-line.pulse {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+
+.status-footer {
+    display: flex;
+    justify-content: flex-end;
+}
