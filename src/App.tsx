@@ -1,15 +1,22 @@
 import { useState } from 'react'
 import Layout from './components/Layout'
 import AgentCreationForm from './components/AgentCreationForm'
+import DeploymentStatus from './components/DeploymentStatus'
 import './App.css'
 
 function App() {
-  const [view, setView] = useState<'dashboard' | 'create'>('dashboard');
+  const [view, setView] = useState<'dashboard' | 'create' | 'deploying'>('dashboard');
+  const [selectedAgent, setSelectedAgent] = useState<string>('');
+
+  const startDeployment = (name: string) => {
+    setSelectedAgent(name);
+    setView('deploying');
+  };
 
   return (
     <Layout>
       <div className="dashboard-home">
-        {view === 'dashboard' ? (
+        {view === 'dashboard' && (
           <>
             <header className="content-header">
               <h1>Welcome back, <span className="neon-text">David</span></h1>
@@ -54,14 +61,20 @@ function App() {
               </div>
             </section>
           </>
-        ) : (
+        )}
+
+        {view === 'create' && (
           <>
             <header className="content-header">
               <button className="btn-back" onClick={() => setView('dashboard')}>← Back to Dashboard</button>
               <h1>Create <span className="neon-text">New Agent</span></h1>
             </header>
-            <AgentCreationForm />
+            <AgentCreationForm onDeploy={startDeployment} />
           </>
+        )}
+
+        {view === 'deploying' && (
+          <DeploymentStatus agentName={selectedAgent} onClose={() => setView('dashboard')} />
         )}
       </div>
     </Layout>
