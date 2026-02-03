@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 import type { User } from '../types/agent';
+import { useGoogleAuth } from '../hooks/useGoogleAuth';
 import './Login.css';
 
 interface LoginProps {
@@ -7,17 +8,7 @@ interface LoginProps {
 }
 
 const Login: FC<LoginProps> = ({ onLogin }) => {
-    const handleGoogleLogin = () => {
-        // Simulate Google Authentication Flow
-        const mockUser: User = {
-            id: crypto.randomUUID(),
-            name: 'David Fleischmann',
-            email: 'david@openclaw.ai',
-            role: 'user',
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=David'
-        };
-        onLogin(mockUser);
-    };
+    const { login: googleLogin, isAuthenticating, error } = useGoogleAuth(onLogin);
 
     const handleAdminLogin = () => {
         // Shortcut for demo purposes
@@ -45,19 +36,27 @@ const Login: FC<LoginProps> = ({ onLogin }) => {
                 </div>
 
                 <div className="social-login-grid">
-                    <button className="social-btn google" onClick={handleGoogleLogin}>
-                        <span className="social-icon">G</span>
-                        Continue with Google
+                    <button
+                        className={`social-btn google ${isAuthenticating ? 'loading' : ''}`}
+                        onClick={() => !isAuthenticating && googleLogin()}
+                        disabled={isAuthenticating}
+                    >
+                        <span className="social-icon">
+                            {isAuthenticating ? <span className="spinner"></span> : 'G'}
+                        </span>
+                        {isAuthenticating ? 'Connecting to Google...' : 'Continue with Google'}
                     </button>
-                    <button className="social-btn github" onClick={handleGoogleLogin}>
+                    {error && <p className="auth-error">{error}</p>}
+
+                    <button className="social-btn github" onClick={() => !isAuthenticating && googleLogin()} disabled={isAuthenticating}>
                         <span className="social-icon">🐙</span>
                         Continue with GitHub
                     </button>
-                    <button className="social-btn apple" onClick={handleGoogleLogin}>
+                    <button className="social-btn apple" onClick={() => !isAuthenticating && googleLogin()} disabled={isAuthenticating}>
                         <span className="social-icon">🍎</span>
                         Continue with Apple
                     </button>
-                    <button className="social-btn facebook" onClick={handleGoogleLogin}>
+                    <button className="social-btn facebook" onClick={() => !isAuthenticating && googleLogin()} disabled={isAuthenticating}>
                         <span className="social-icon">f</span>
                         Continue with Facebook
                     </button>
