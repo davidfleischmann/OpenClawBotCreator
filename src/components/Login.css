@@ -66,6 +66,26 @@
     width: 24px;
 }
 
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.divider span {
+    padding: 0 12px;
+}
+
 .social-btn.google .social-icon {
     color: #ea4335;
 }
@@ -80,6 +100,16 @@
 
 .social-btn.facebook .social-icon {
     color: #1877f2;
+}
+
+.social-btn.admin-demo {
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    background: rgba(0, 242, 255, 0.05);
+}
+
+.social-btn.admin-demo:hover {
+    background: rgba(0, 242, 255, 0.1);
 }
 
 .login-footer p {

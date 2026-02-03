@@ -1,5 +1,15 @@
 export type MessagingPlatform = 'telegram' | 'whatsapp' | 'discord';
 
+export type UserRole = 'admin' | 'user';
+
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    role: UserRole;
+    avatar?: string;
+}
+
 export interface AgentVersion {
     versionId: string;
     config: Omit<AgentConfig, 'history' | 'version'>;
@@ -17,6 +27,8 @@ export interface AgentConfig {
     createdAt: number;
     version: number;
     history: AgentVersion[];
+    ownerId: string;
+    ownerName: string;
 }
 
 export interface Skill {

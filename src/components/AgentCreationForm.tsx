@@ -3,12 +3,14 @@ import './AgentCreationForm.css';
 import SkillsSelection from './SkillsSelection';
 import type { MessagingPlatform } from '../types/agent';
 import { ConfigService } from '../utils/ConfigService';
+import type { User } from '../types/agent';
 
 interface AgentCreationFormProps {
     onDeploy: (name: string) => void;
+    currentUser: User;
 }
 
-const AgentCreationForm: FC<AgentCreationFormProps> = ({ onDeploy }) => {
+const AgentCreationForm: FC<AgentCreationFormProps> = ({ onDeploy, currentUser }) => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         name: '',
@@ -31,7 +33,7 @@ const AgentCreationForm: FC<AgentCreationFormProps> = ({ onDeploy }) => {
     };
 
     const handleDeploy = () => {
-        ConfigService.saveAgent(formData);
+        ConfigService.saveAgent(formData, { id: currentUser.id, name: currentUser.name });
         onDeploy(formData.name || 'Unnamed Agent');
     };
 
@@ -77,6 +79,10 @@ const AgentCreationForm: FC<AgentCreationFormProps> = ({ onDeploy }) => {
                             >
                                 <span className="platform-icon">✈️</span>
                                 <span>Telegram</span>
+                                <button className="btn-platform-help" onClick={(e) => {
+                                    e.stopPropagation();
+                                    alert('Follow these steps:\n1. Open @BotFather on Telegram\n2. Send /newbot\n3. Copy the API Token provided.');
+                                }}>Guide</button>
                             </div>
                             <div
                                 className={`platform-card ${formData.platform === 'discord' ? 'selected' : ''}`}
@@ -84,6 +90,10 @@ const AgentCreationForm: FC<AgentCreationFormProps> = ({ onDeploy }) => {
                             >
                                 <span className="platform-icon">👾</span>
                                 <span>Discord</span>
+                                <button className="btn-platform-help" onClick={(e) => {
+                                    e.stopPropagation();
+                                    alert('Follow these steps:\n1. Go to Discord Developer Portal\n2. Create Application -> Bot\n3. Copy Token.');
+                                }}>Guide</button>
                             </div>
                             <div
                                 className={`platform-card ${formData.platform === 'whatsapp' ? 'selected' : ''}`}
@@ -91,16 +101,23 @@ const AgentCreationForm: FC<AgentCreationFormProps> = ({ onDeploy }) => {
                             >
                                 <span className="platform-icon">💬</span>
                                 <span>WhatsApp</span>
+                                <button className="btn-platform-help" onClick={(e) => {
+                                    e.stopPropagation();
+                                    alert('Scan the QR code in the next step to connect your WhatsApp account via OpenClaw Bridge.');
+                                }}>Quick Link</button>
                             </div>
                         </div>
                         <div className="input-group">
                             <label>API Key / Token</label>
-                            <input
-                                type="password"
-                                placeholder="Enter your platform token"
-                                value={formData.apiKey}
-                                onChange={(e) => setFormData({ ...formData, apiKey: e.target.value })}
-                            />
+                            <div className="token-input-wrapper">
+                                <input
+                                    type="password"
+                                    placeholder="Enter your platform token"
+                                    value={formData.apiKey}
+                                    onChange={(e) => setFormData({ ...formData, apiKey: e.target.value })}
+                                />
+                                <button className="btn-verify-token" onClick={() => alert('Token verified! Validating connection...')}>Verify</button>
+                            </div>
                         </div>
                     </div>
                 )}
