@@ -107,6 +107,53 @@
 .platform-card.selected {
     border-color: var(--accent-cyan);
     background: rgba(0, 242, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+}
+
+.btn-platform-help {
+    margin-top: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-secondary);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-platform-help:hover {
+    background: var(--accent-cyan);
+    color: var(--bg-color);
+    border-color: var(--accent-cyan);
+}
+
+.token-input-wrapper {
+    display: flex;
+    gap: 12px;
+}
+
+.token-input-wrapper input {
+    flex: 1;
+}
+
+.btn-verify-token {
+    background: rgba(72, 187, 120, 0.1);
+    border: 1px solid #48bb78;
+    color: #48bb78;
+    padding: 0 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.btn-verify-token:hover {
+    background: #48bb78;
+    color: white;
 }
 
 .platform-icon {

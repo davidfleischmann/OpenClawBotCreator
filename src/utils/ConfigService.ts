@@ -9,7 +9,7 @@ export const ConfigService = {
         return data ? JSON.parse(data) : [];
     },
 
-    saveAgent: (config: Omit<AgentConfig, 'history' | 'version' | 'id' | 'createdAt' | 'status'>, id?: string): AgentConfig => {
+    saveAgent: (config: Omit<AgentConfig, 'history' | 'version' | 'id' | 'createdAt' | 'status' | 'ownerId' | 'ownerName'>, owner: { id: string, name: string }, id?: string): AgentConfig => {
         const agents = ConfigService.getAgents();
         let agent: AgentConfig;
 
@@ -43,7 +43,9 @@ export const ConfigService = {
                 status: 'stopped',
                 createdAt: Date.now(),
                 version: 1,
-                history: []
+                history: [],
+                ownerId: owner.id,
+                ownerName: owner.name
             };
             agents.push(agent);
         }
